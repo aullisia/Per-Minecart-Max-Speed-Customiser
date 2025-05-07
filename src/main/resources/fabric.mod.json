@@ -3,13 +3,13 @@
 	"id": "pmmsc",
 	"version": "${version}",
 	"name": "Per-Minecart Max Speed Customiser",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Fine‑tune the max speed of each minecart individually!",
 	"authors": [
-		"Me!"
+		"Aullisia"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://www.aullisia.dev/",
+		"sources": "https://github.com/aullisia/Per-Minecart-Max-Speed-Customiser"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/pmmsc/icon.png",
@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiserDataGenerator"
+		],
+		"client": [
+			"dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiserClient"
 		]
 	},
 	"mixins": [

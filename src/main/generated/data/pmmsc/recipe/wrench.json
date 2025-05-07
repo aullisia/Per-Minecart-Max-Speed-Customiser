@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "wrench",
+  "key": {
+    "/": "minecraft:stick",
+    "L": "minecraft:leather",
+    "g": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "gL",
+    "/ "
+  ],
+  "result": {
+    "count": 1,
+    "id": "pmmsc:wrench"
+  }
+}

@@ -3,9 +3,14 @@
 	"package": "dev.aullisia.pmmsc.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"MinecartControllerAccessor",
+		"AbstractMinecartEntityMixin",
+		"ExperimentalMinecartControllerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
-	}
+	},
+	"client": [
+		"MouseMixin"
+	]
 }
