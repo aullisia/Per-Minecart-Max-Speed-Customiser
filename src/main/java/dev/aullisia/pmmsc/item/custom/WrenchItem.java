@@ -1,10 +1,12 @@
 package dev.aullisia.pmmsc.item.custom;
 
+import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
 import dev.aullisia.pmmsc.network.ModNetwork;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,18 +26,18 @@ public class WrenchItem extends Item {
         super(settings);
     }
 
-    private static final Map<UUID, MinecartEntity> MODIFYING_CARTS = new HashMap<>();
+    private static final Map<UUID, AbstractMinecartEntity> MODIFYING_CARTS = new HashMap<>();
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (user.isInSneakingPose()) {
             HitResult hit = ProjectileUtil.getCollision(user,
-                    entity -> entity instanceof MinecartEntity,
+                    entity -> entity instanceof AbstractMinecartEntity,
                     5.0D
             );
 
             if (hit.getType() == HitResult.Type.ENTITY) {
-                MinecartEntity cart = (MinecartEntity) ((EntityHitResult) hit).getEntity();
+                AbstractMinecartEntity cart = (AbstractMinecartEntity) ((EntityHitResult) hit).getEntity();
                 MODIFYING_CARTS.put(user.getUuid(), cart);
 
                 user.setCurrentHand(hand);
@@ -48,7 +50,7 @@ public class WrenchItem extends Item {
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         if (user instanceof PlayerEntity player) {
-            MinecartEntity cart = MODIFYING_CARTS.get(player.getUuid());
+            AbstractMinecartEntity cart = MODIFYING_CARTS.get(player.getUuid());
             if (cart != null) {
                 double scroll = ModNetwork.WRENCH_SCROLL_VALUES.getOrDefault(player.getUuid(), 0.0);
                 ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());

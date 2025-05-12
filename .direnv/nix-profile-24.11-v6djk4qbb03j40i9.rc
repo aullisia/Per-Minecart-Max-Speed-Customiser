@@ -29,7 +29,7 @@ NIX_BINTOOLS='/nix/store/kmaz78bn767ffazkpf8zbq3plnh45nfm-binutils-wrapper-2.43.
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='20'
+NIX_BUILD_CORES='12'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/mzfk1sdv6bxvdh9slvddpj734ck99idi-gcc-wrapper-13.3.0'
 export NIX_CC
@@ -41,7 +41,7 @@ NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
 NIX_HARDENING_ENABLE='bindnow format fortify fortify3 pic relro stackprotector strictoverflow zerocallusedregs'
 export NIX_HARDENING_ENABLE
-NIX_LDFLAGS='-rpath /home/aul/IdeaProjects/Per-Minecart Max Speed Customiser/outputs/out/lib  -L/nix/store/jkki9izciz1zmbl261a701pn25shjxhc-openal-soft-1.23.1/lib -L/nix/store/ipz48dk6ny0ad9pbmv6qb9zssgpdxkh9-alsa-lib-1.2.12/lib -L/nix/store/9lv07shnn9ylgi4yainxgirccxwxai9v-libcap-2.70-lib/lib -L/nix/store/9n4rvcgvdmqwl1nqxnl44gc9334b877l-pulseaudio-17.0/lib -L/nix/store/jkki9izciz1zmbl261a701pn25shjxhc-openal-soft-1.23.1/lib -L/nix/store/ipz48dk6ny0ad9pbmv6qb9zssgpdxkh9-alsa-lib-1.2.12/lib -L/nix/store/9lv07shnn9ylgi4yainxgirccxwxai9v-libcap-2.70-lib/lib -L/nix/store/9n4rvcgvdmqwl1nqxnl44gc9334b877l-pulseaudio-17.0/lib'
+NIX_LDFLAGS='-rpath /home/aul/IdeaProjects/Per-Minecart-Max-Speed-Customiser/outputs/out/lib  -L/nix/store/jkki9izciz1zmbl261a701pn25shjxhc-openal-soft-1.23.1/lib -L/nix/store/ipz48dk6ny0ad9pbmv6qb9zssgpdxkh9-alsa-lib-1.2.12/lib -L/nix/store/9lv07shnn9ylgi4yainxgirccxwxai9v-libcap-2.70-lib/lib -L/nix/store/9n4rvcgvdmqwl1nqxnl44gc9334b877l-pulseaudio-17.0/lib -L/nix/store/jkki9izciz1zmbl261a701pn25shjxhc-openal-soft-1.23.1/lib -L/nix/store/ipz48dk6ny0ad9pbmv6qb9zssgpdxkh9-alsa-lib-1.2.12/lib -L/nix/store/9lv07shnn9ylgi4yainxgirccxwxai9v-libcap-2.70-lib/lib -L/nix/store/9n4rvcgvdmqwl1nqxnl44gc9334b877l-pulseaudio-17.0/lib'
 export NIX_LDFLAGS
 NIX_NO_SELF_RPATH='1'
 NIX_STORE='/nix/store'
@@ -127,7 +127,7 @@ declare -a envHostHostHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envHostTargetHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
-guess='20'
+guess='12'
 initialPath='/nix/store/440q5scq8paszj2sdgz98hxl1rz12i88-coreutils-9.5 /nix/store/lpz4m485bm2y8mann5c4xcf4p4hlls3k-findutils-4.10.0 /nix/store/7ccb8xj9yrk9r1x7ng442pch34mg3hb7-diffutils-3.10 /nix/store/q5b7l0zfk7k6nadpj80niqzymaq0z9yp-gnused-4.9 /nix/store/0mqngkz34kv5z6hz91bbbgzgrnz56c4y-gnugrep-3.11 /nix/store/v1hn1bi91gx9w5xcb2n6r05kf92f3pjn-gawk-5.3.1 /nix/store/prkjsk3l0l253yn0y2zqpyjjjsnk91gw-gnutar-1.35 /nix/store/bmn67qbi7p4182ddm52wk8k2519gigin-gzip-1.13 /nix/store/j2hr3lrisnr8gp2lyh0ndn84z7sns177-bzip2-1.0.8-bin /nix/store/gvc67j3hwsyz6bd2g9gfr80l1r6n3khm-gnumake-4.4.1 /nix/store/mc4485g4apaqzjx59dsmqscls1zc3p2w-bash-5.2p37 /nix/store/1ljh6ska2p266gwhqrnl8znnczb7651d-patch-2.7.6 /nix/store/f9ka08g981zgpbl5bg4qglb5admyghmc-xz-5.6.3-bin /nix/store/19djhxh07c8ya6n96ylidaxgi35p8asx-file-5.45'
 mesonFlags=''
 export mesonFlags
@@ -135,7 +135,7 @@ name='nix-shell-env'
 export name
 nativeBuildInputs=''
 export nativeBuildInputs
-out='/home/aul/IdeaProjects/Per-Minecart Max Speed Customiser/outputs/out'
+out='/home/aul/IdeaProjects/Per-Minecart-Max-Speed-Customiser/outputs/out'
 export out
 outputBin='out'
 outputDev='out'
@@ -166,7 +166,7 @@ preConfigurePhases=' updateAutotoolsGnuConfigScriptsPhase'
 declare -a preFixupHooks=('_moveToShare' '_multioutDocs' '_multioutDevs' )
 preferLocalBuild='1'
 export preferLocalBuild
-prefix='/home/aul/IdeaProjects/Per-Minecart Max Speed Customiser/outputs/out'
+prefix='/home/aul/IdeaProjects/Per-Minecart-Max-Speed-Customiser/outputs/out'
 declare -a propagatedBuildDepFiles=('propagated-build-build-deps' 'propagated-native-build-inputs' 'propagated-build-target-deps' )
 propagatedBuildInputs=''
 export propagatedBuildInputs

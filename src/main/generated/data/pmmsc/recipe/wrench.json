@@ -3,7 +3,7 @@
   "category": "equipment",
   "group": "wrench",
   "key": {
-    "/": "minecraft:stick",
+    "/": "minecraft:iron_ingot",
     "L": "minecraft:leather",
     "g": "minecraft:gold_ingot"
   },
