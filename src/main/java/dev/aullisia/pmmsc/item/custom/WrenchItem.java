@@ -28,23 +28,9 @@ public class WrenchItem extends Item {
 
     private static final Map<UUID, AbstractMinecartEntity> MODIFYING_CARTS = new HashMap<>();
 
-    @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if (user.isInSneakingPose()) {
-            HitResult hit = ProjectileUtil.getCollision(user,
-                    entity -> entity instanceof AbstractMinecartEntity,
-                    5.0D
-            );
-
-            if (hit.getType() == HitResult.Type.ENTITY) {
-                AbstractMinecartEntity cart = (AbstractMinecartEntity) ((EntityHitResult) hit).getEntity();
-                MODIFYING_CARTS.put(user.getUuid(), cart);
-
-                user.setCurrentHand(hand);
-                return ActionResult.CONSUME;
-            }
-        }
-        return ActionResult.PASS;
+    public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
+        MODIFYING_CARTS.put(player.getUuid(), cart);
+        player.setCurrentHand(hand);
     }
 
     @Override
