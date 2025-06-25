@@ -6,16 +6,29 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
+def mcVersion = stonecutter.current.version
+def mcDep = project.supported_mc_versions.toString()
+
+version = "${property('mod_version')}-${property('jarname_target')}"
+
 base {
 	archivesName = project.archives_base_name
 }
 
+loom {
+	runConfigs.all {
+		ideConfigGenerated true // Run configurations are not created for subprojects by default
+		runDir "../../run" // Use a shared run folder and create separate worlds
+	}
+	configurations.all {
+		resolutionStrategy {
+			force("net.fabricmc:fabric-loader:$loader_version")
+		}
+	}
+}
+
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	maven { url 'https://jitpack.io' }
 }
 
 fabricApi {
@@ -32,19 +45,31 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	// Conditional Mixin
+	modImplementation 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4'
+	include 'me.fallenbreath:conditional-mixin-fabric:0.6.4' // Bundle into mod jar
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand "version": project.version,
+				'mcdep': project.property('supported_mc_versions'),
+				'javadep': stonecutter.eval(mcVersion, ">=1.20.5") ? '>=21' : '>=17'
+	}
+
+	filesMatching("pmmsc.mixins.json5") {
+		expand "refmap": "pmmsc-refmap.json"
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = stonecutter.eval(mcVersion, ">=1.20.5")
+			? 21 : 17
 }
 
 java {
@@ -53,23 +78,22 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	def java = stonecutter.eval(mcVersion, ">=1.20.5")
+			? JavaVersion.VERSION_21 : JavaVersion.VERSION_17
+	sourceCompatibility = java
+	targetCompatibility = java
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
-
 	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}"}
+		rename { "${it}_${project.archivesBaseName}"}
 	}
 }
 
 // configure the maven publication
 publishing {
 	publications {
-		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
+		mavenJava(MavenPublication) {
 			from components.java
 		}
 	}

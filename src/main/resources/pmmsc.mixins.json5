@@ -1,6 +1,7 @@
 {
 	"required": true,
 	"package": "dev.aullisia.pmmsc.mixin",
+	"plugin": "dev.aullisia.pmmsc.mixin.MyMixinConfigPlugin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"MinecartControllerAccessor",
@@ -12,5 +13,6 @@
 	},
 	"client": [
 		"MouseMixin"
-	]
+	],
+	"refmap": "${refmap}"
 }

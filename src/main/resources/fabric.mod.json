@@ -26,13 +26,14 @@
 		]
 	},
 	"mixins": [
-		"pmmsc.mixins.json"
+		"pmmsc.mixins.json5"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
-		"minecraft": ">=1.21.2 <=1.21.4",
-		"java": ">=21",
-		"fabric-api": "*"
+		"minecraft": "${mcdep}",
+		"java": "${javadep}",
+		"fabric-api": "*",
+		"conditional-mixin": "*"
 	},
 	"suggests": {
 		"another-mod": "*"

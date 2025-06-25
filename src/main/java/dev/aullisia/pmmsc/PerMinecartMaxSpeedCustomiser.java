@@ -32,5 +32,13 @@ public class PerMinecartMaxSpeedCustomiser implements ModInitializer {
         ModItems.registerModItems();
         EventHooks.hookEvents();
         LOGGER.info("PerMinecartMaxSpeedCustomiser Initialised!");
+
+        //? if =1.21.4 {
+        LOGGER.info("[MULTI_VERSION]Running on Minecraft version 1.21.4!");
+        //?} elif =1.21.5 {
+        /*LOGGER.info("[MULTI_VERSION]Running on Minecraft version 1.21.5!");
+        *///?} else {
+        /*LOGGER.info("[MULTI_VERSION]Running on a Minecraft version other than 1.21.4 or 1.21.5!");
+        *///?}
     }
 }
