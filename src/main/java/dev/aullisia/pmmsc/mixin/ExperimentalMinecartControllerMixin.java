@@ -13,6 +13,8 @@ public class ExperimentalMinecartControllerMixin {
     /**
      * Overwrites the default max speed calculation for minecarts to support custom per-minecart speeds.
      * If a custom speed is set (greater than 0), it is used instead of the global game rule.
+     * @author aullisia
+     * @reason Allow individual minecarts to have custom speeds instead of a single global game rule.
      */
     @Overwrite
     public double getMaxSpeed(ServerWorld world) {

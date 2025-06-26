@@ -1,5 +1,6 @@
 package dev.aullisia.pmmsc;
 
+import dev.aullisia.pmmsc.component.ModComponents;
 import dev.aullisia.pmmsc.events.EventHooks;
 import dev.aullisia.pmmsc.item.ModItems;
 import dev.aullisia.pmmsc.item.custom.WrenchItem;
@@ -29,6 +30,7 @@ public class PerMinecartMaxSpeedCustomiser implements ModInitializer {
     @Override
     public void onInitialize() {
         ModNetwork.registerModNetwork();
+        ModComponents.registerModComponents();
         ModItems.registerModItems();
         EventHooks.hookEvents();
         LOGGER.info("PerMinecartMaxSpeedCustomiser Initialised!");

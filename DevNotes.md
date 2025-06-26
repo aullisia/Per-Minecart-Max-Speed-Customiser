@@ -2,9 +2,13 @@ https://stonecutter.kikugie.dev/
 
 https://github.com/Fallen-Breath/conditional-mixin
 
-Build All versions:
+Build all versions:
 ```bash
 ./gradlew chiseledBuildAndCollect
+```
+Generate data packs for all versions:
+```bash
+./gradlew chiseledDatagen
 ```
 Change minecraft version environment
 ```bash
@@ -16,10 +20,11 @@ Run a specific minecraft version (must be in environment)
 ```
 Build specific version
 ```bash
-./gradlew :1.21.5:build
+./gradlew :1.21.6:build
 ```
 
 .env
 ```
 MODRINTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```

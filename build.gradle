@@ -115,11 +115,23 @@ publishing {
 	}
 }
 
+
+tasks.register("buildAndCollect", Copy) {
+	group = "build"
+
+	dependsOn("remapJar") // Important: make sure remapJar has run
+
+	from {
+		tasks.named("remapJar").get().archiveFile // ✅ No `.get()` after archiveFile!
+	}
+	into(rootProject.layout.buildDirectory.dir("libs/${version}"))
+}
+
 publishMods {
 	def mod = project.mod_version
 	def mc = stonecutter.current.version
 	version = "${mod}+${mc}"
-	changelog = "# My mod update\n- Added new features"
+	changelog = "\n- New recipe to reflect new texture \n- Switched to components for minecart reference"
 	type = STABLE
 
 	file = remapJar.archiveFile
@@ -133,4 +145,13 @@ publishMods {
 			id = "P7dR8mSH"
 		}
 	}
+
+//	println(">>> Publishing to tag: v${mod}")
+//	github {
+//		accessToken = providers.environmentVariable("GITHUB_TOKEN")
+//		repository = "aullisia/Per-Minecart-Max-Speed-Customiser"
+//		commitish = "master"
+//		tagName = "v${mod}"
+//		allowEmptyFiles = true
+//	}
 }

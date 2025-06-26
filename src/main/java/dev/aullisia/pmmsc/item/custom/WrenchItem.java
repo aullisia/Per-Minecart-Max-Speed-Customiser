@@ -1,8 +1,10 @@
 package dev.aullisia.pmmsc.item.custom;
 
 import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
+import dev.aullisia.pmmsc.component.ModComponents;
 import dev.aullisia.pmmsc.network.ModNetwork;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -10,6 +12,7 @@ import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -26,18 +29,17 @@ public class WrenchItem extends Item {
         super(settings);
     }
 
-    private static final Map<UUID, AbstractMinecartEntity> MODIFYING_CARTS = new HashMap<>();
-
     public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
-        MODIFYING_CARTS.put(player.getUuid(), cart);
+        player.getStackInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUuid());
         player.setCurrentHand(hand);
     }
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        if (user instanceof PlayerEntity player) {
-            AbstractMinecartEntity cart = MODIFYING_CARTS.get(player.getUuid());
-            if (cart != null) {
+        if ((user instanceof PlayerEntity player) && (world instanceof ServerWorld serverWorld)) {
+            var cartUuid = stack.get(ModComponents.TARGET_MINECART);
+            Entity cartEntity = serverWorld.getEntity(cartUuid);
+            if ((cartEntity instanceof AbstractMinecartEntity cart)) {
                 double scroll = ModNetwork.WRENCH_SCROLL_VALUES.getOrDefault(player.getUuid(), 0.0);
                 ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());
 
@@ -69,7 +71,7 @@ public class WrenchItem extends Item {
     @Override
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity player) {
-            MODIFYING_CARTS.remove(player.getUuid());
+            stack.set(ModComponents.TARGET_MINECART, null);
             ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());
         }
         return true;
