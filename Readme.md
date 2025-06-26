@@ -9,3 +9,7 @@ This mod allows you to set the **maximum speed for each minecart entity individu
 - Assign custom max speeds per individual minecart
 - Easy-to-use wrench tool for adjusting speed values in-game
 - Does not affect minecarts globally settings are entity-specific
+
+## Credits
+
+- Wrench texture by [Deathlock](https://github.com/Deathlock7171)
