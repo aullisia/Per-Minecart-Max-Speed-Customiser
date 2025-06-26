@@ -14,5 +14,5 @@
 	"client": [
 		"MouseMixin"
 	],
-	"refmap": "${refmap}"
+	"refmap": "pmmsc-refmap.json"
 }

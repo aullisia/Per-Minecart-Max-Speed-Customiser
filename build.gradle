@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
 version = project.mod_version
@@ -25,6 +26,9 @@ loom {
 			force("net.fabricmc:fabric-loader:$loader_version")
 		}
 	}
+	mixin {
+		defaultRefmapName.set("pmmsc-refmap.json")
+	}
 }
 
 repositories {
@@ -48,7 +52,7 @@ dependencies {
 
 	// Conditional Mixin
 	modImplementation 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4'
-	include 'me.fallenbreath:conditional-mixin-fabric:0.6.4' // Bundle into mod jar
+	include 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4' // Bundle into mod jar
 }
 
 processResources {
@@ -84,6 +88,10 @@ java {
 	targetCompatibility = java
 }
 
+tasks.named('sourcesJar') {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
@@ -104,5 +112,25 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+publishMods {
+	def mod = project.mod_version
+	def mc = stonecutter.current.version
+	version = "${mod}+${mc}"
+	changelog = "# My mod update\n- Added new features"
+	type = STABLE
+
+	file = remapJar.archiveFile
+	modLoaders.add("fabric")
+
+	modrinth {
+		projectId = "GJPp630M"
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		minecraftVersions.add(mc)
+		requires {
+			id = "P7dR8mSH"
+		}
 	}
 }
