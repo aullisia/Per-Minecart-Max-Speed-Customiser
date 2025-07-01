@@ -1,6 +1,7 @@
 package dev.aullisia.pmmsc.item.custom;
 
 import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
+import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiserConfig;
 import dev.aullisia.pmmsc.component.ModComponents;
 import dev.aullisia.pmmsc.network.ModNetwork;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
@@ -44,12 +45,13 @@ public class WrenchItem extends Item {
                 ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());
 
                 double currentSpeed = ((CustomMaxSpeedAccessor) cart).getCustomMaxSpeed();
-                double newSpeed = Math.max(-1, currentSpeed + scroll * 0.5);
-                ((CustomMaxSpeedAccessor) cart).setCustomMaxSpeed(newSpeed);
+                double newSpeed = currentSpeed + scroll * 0.5;
+                double clampedSpeed = Math.min(Math.max(-1, newSpeed), PerMinecartMaxSpeedCustomiserConfig.minecartMaxSpeed.get());
+                ((CustomMaxSpeedAccessor) cart).setCustomMaxSpeed(clampedSpeed);
 
                 if (!world.isClient) {
-                    if (newSpeed > 0) {
-                        player.sendMessage(Text.literal("Maximum Speed: " + newSpeed), true);
+                    if (clampedSpeed > 0) {
+                        player.sendMessage(Text.literal("Maximum Speed: " + clampedSpeed), true);
                     } else {
                         player.sendMessage(Text.literal("Maximum Speed: Default"), true);
                     }

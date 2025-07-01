@@ -32,6 +32,7 @@ loom {
 }
 
 repositories {
+	maven { url "https://www.cursemaven.com" }
 	maven { url 'https://jitpack.io' }
 }
 
@@ -53,6 +54,9 @@ dependencies {
 	// Conditional Mixin
 	modImplementation 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4'
 	include 'com.github.Fallen-Breath.conditional-mixin:conditional-mixin-fabric:0.6.4' // Bundle into mod jar
+
+	// Config library
+	modImplementation "curse.maven:supermartijn642s-config-lib-438332:${supermartijn642_config_library_file}"
 }
 
 processResources {

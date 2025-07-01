@@ -1,6 +1,7 @@
 package dev.aullisia.pmmsc.item;
 
 import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
+import dev.aullisia.pmmsc.component.ModComponents;
 import dev.aullisia.pmmsc.item.custom.WrenchItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -13,7 +14,7 @@ import net.minecraft.util.Identifier;
 import java.util.function.Function;
 
 public class ModItems {
-    public static final Item WRENCH = registerItem("wrench", WrenchItem::new, new Item.Settings());
+    public static final Item WRENCH = registerItem("wrench", WrenchItem::new, new Item.Settings().maxCount(1).component(ModComponents.TARGET_MINECART, null));
 
     public static Item registerItem(String path, Function<Item.Settings, Item> factory, Item.Settings settings) {
         final RegistryKey<Item> registryKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(PerMinecartMaxSpeedCustomiser.MOD_ID, path));
