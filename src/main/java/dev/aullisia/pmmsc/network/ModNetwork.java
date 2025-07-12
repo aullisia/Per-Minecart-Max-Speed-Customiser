@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S;
 
 public class ModNetwork {
+    // TODO: dont do this hasmap
     public static final Map<UUID, Double> WRENCH_SCROLL_VALUES = new ConcurrentHashMap<>();
 
     public static void registerModNetwork(){

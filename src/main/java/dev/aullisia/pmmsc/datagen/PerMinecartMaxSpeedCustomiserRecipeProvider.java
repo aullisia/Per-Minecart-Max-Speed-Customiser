@@ -4,13 +4,13 @@ import dev.aullisia.pmmsc.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 //? if >=1.21.4 {
-/*import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
-*///?}
-//? if <=1.21.3 {
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.RecipeGenerator;
 //?}
+//? if <=1.21.3 {
+/*import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeGenerator;
+*///?}
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -27,7 +27,7 @@ public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipePro
     }
 
     //? if >=1.21.4 {
-    /*@Override
+    @Override
     protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registryLookup, RecipeExporter exporter) {
         return new RecipeGenerator(registryLookup, exporter) {
             @Override
@@ -46,10 +46,10 @@ public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipePro
             }
         };
     }
-    *///?}
+    //?}
 
     //? if <=1.21.3 {
-    @Override
+    /*@Override
     protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup wrapperLookup, RecipeExporter recipeExporter) {
         return new RecipeGenerator(wrapperLookup, recipeExporter) {
             @Override
@@ -66,7 +66,7 @@ public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipePro
             }
         };
     }
-    //?}
+    *///?}
 
     @Override
     public String getName() {
