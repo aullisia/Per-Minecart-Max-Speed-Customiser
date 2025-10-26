@@ -11,7 +11,7 @@ public class EventHooks {
     public static void hookEvents() {
         // Wrench right click on entity
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (!world.isClient && hand == Hand.MAIN_HAND && player.isSneaking() && entity instanceof AbstractMinecartEntity minecart && player.getStackInHand(hand).getItem() == ModItems.WRENCH) {
+            if (hand == Hand.MAIN_HAND && player.isSneaking() && entity instanceof AbstractMinecartEntity minecart && player.getStackInHand(hand).getItem() == ModItems.WRENCH) {
                 WrenchItem.useWrench(player, minecart, hand);
                 return ActionResult.SUCCESS; // Block default chest/furnace behavior
             }

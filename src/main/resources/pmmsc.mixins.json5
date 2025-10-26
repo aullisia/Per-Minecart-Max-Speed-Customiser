@@ -12,7 +12,6 @@
 		"defaultRequire": 1
 	},
 	"client": [
-		"MouseMixin"
 	],
 	"refmap": "pmmsc-refmap.json"
 }

@@ -22,9 +22,3 @@ Build specific version
 ```bash
 ./gradlew :1.21.6:build
 ```
-
-.env
-```
-MODRINTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-GITHUB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```

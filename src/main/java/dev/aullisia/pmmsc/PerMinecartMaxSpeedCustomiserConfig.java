@@ -1,7 +1,5 @@
 package dev.aullisia.pmmsc;
 
-import com.supermartijn642.configlib.ConfigBuilder;
-import com.supermartijn642.configlib.ModConfig;
 import com.supermartijn642.configlib.api.ConfigBuilders;
 import com.supermartijn642.configlib.api.IConfigBuilder;
 import net.fabricmc.loader.api.FabricLoader;

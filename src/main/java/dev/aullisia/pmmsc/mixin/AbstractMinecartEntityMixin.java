@@ -3,7 +3,10 @@ package dev.aullisia.pmmsc.mixin;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 //? if >=1.21.6 {
-/*import net.minecraft.storage.ReadView;
+/*import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 *///?}
 import net.minecraft.nbt.NbtCompound;

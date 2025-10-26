@@ -1,29 +1,19 @@
 package dev.aullisia.pmmsc.item.custom;
 
-import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
-import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiserConfig;
 import dev.aullisia.pmmsc.component.ModComponents;
-import dev.aullisia.pmmsc.network.ModNetwork;
+import dev.aullisia.pmmsc.network.packet.MinecartMaxSpeedSyncPayload;
+import dev.aullisia.pmmsc.screen.MinecartSpeedScreen;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 
 public class WrenchItem extends Item {
     public WrenchItem(Settings settings) {
@@ -31,51 +21,18 @@ public class WrenchItem extends Item {
     }
 
     public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
-        player.getStackInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUuid());
-        player.setCurrentHand(hand);
-    }
+        if (player.getWorld().isClient) {
+            MinecraftClient.getInstance().setScreen(
+                    new MinecartSpeedScreen(Text.of(Objects.requireNonNull(cart.getDisplayName())), cart)
+            );
+        } else {
+            player.getStackInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUuid());
+            player.setCurrentHand(hand);
 
-    @Override
-    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        if ((user instanceof PlayerEntity player) && (world instanceof ServerWorld serverWorld)) {
-            var cartUuid = stack.get(ModComponents.TARGET_MINECART);
-            Entity cartEntity = serverWorld.getEntity(cartUuid);
-            if ((cartEntity instanceof AbstractMinecartEntity cart)) {
-                double scroll = ModNetwork.WRENCH_SCROLL_VALUES.getOrDefault(player.getUuid(), 0.0);
-                ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());
-
-                double currentSpeed = ((CustomMaxSpeedAccessor) cart).getCustomMaxSpeed();
-                double newSpeed = currentSpeed + scroll * 0.5;
-                double clampedSpeed = Math.min(Math.max(-1, newSpeed), PerMinecartMaxSpeedCustomiserConfig.minecartMaxSpeed.get());
-                ((CustomMaxSpeedAccessor) cart).setCustomMaxSpeed(clampedSpeed);
-
-                if (!world.isClient) {
-                    if (clampedSpeed > 0) {
-                        player.sendMessage(Text.literal("Maximum Speed: " + clampedSpeed), true);
-                    } else {
-                        player.sendMessage(Text.literal("Maximum Speed: Default"), true);
-                    }
-                }
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                ServerPlayNetworking.send(serverPlayer,
+                        new MinecartMaxSpeedSyncPayload(((CustomMaxSpeedAccessor) cart).getCustomMaxSpeed()));
             }
         }
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        return 72000;
-    }
-
-    @Override
-    public boolean isUsedOnRelease(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (user instanceof PlayerEntity player) {
-            stack.set(ModComponents.TARGET_MINECART, null);
-            ModNetwork.WRENCH_SCROLL_VALUES.remove(player.getUuid());
-        }
-        return true;
     }
 }
