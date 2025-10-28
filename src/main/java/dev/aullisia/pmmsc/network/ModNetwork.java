@@ -8,6 +8,8 @@ import dev.aullisia.pmmsc.network.packet.MinecartMaxSpeedPayload;
 import dev.aullisia.pmmsc.network.packet.MinecartMaxSpeedSyncPayload;
 import dev.aullisia.pmmsc.screen.MinecartSpeedScreen;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -29,25 +31,32 @@ import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S;
 import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C;
 
 public class ModNetwork {
-    public static void registerModNetwork() {
+    public static void registerServer() {
+        playS2C().register(MinecartMaxSpeedSyncPayload.ID, MinecartMaxSpeedSyncPayload.CODEC);
         playC2S().register(MinecartMaxSpeedPayload.ID, MinecartMaxSpeedPayload.CODEC);
-        playS2C().register(MinecartMaxSpeedSyncPayload.ID, MinecartMaxSpeedSyncPayload.CODEC); // <-- fix here
 
         ServerPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedPayload.ID, (payload, context) -> {
             ServerPlayerEntity player = context.player();
             double speed = payload.speed();
 
+            //? if >=1.21.9 {
+            /*Objects.requireNonNull(context.server()).execute(() -> {
+             *///?}
+            //? if <1.21.9 {
             Objects.requireNonNull(context.player().getServer()).execute(() -> {
+                //?}
                 var stack = player.getStackInHand(player.getActiveHand());
                 var cartUuid = stack.get(ModComponents.TARGET_MINECART);
                 //? if <1.21.5 {
                 Entity cartEntity = player.getServerWorld().getEntity(cartUuid);
                 //?}
-                //? if >=1.21.5 {
+                //? if >=1.21.5 && <1.21.9 {
                 /*Entity cartEntity = player.getWorld().getEntity(cartUuid);
                  *///?}
 
-                PerMinecartMaxSpeedCustomiser.LOGGER.info(cartUuid.toString());
+                //? if >=1.21.9 {
+                /*Entity cartEntity = player.getEntityWorld().getEntity(cartUuid);
+                 *///?}
 
                 if ((cartEntity instanceof AbstractMinecartEntity cart)) {
                     double clampedSpeed = Math.min(Math.max(-1, speed), PerMinecartMaxSpeedCustomiserConfig.minecartMaxSpeed.get());
@@ -56,7 +65,10 @@ public class ModNetwork {
                 }
             });
         });
+    }
 
+    @Environment(EnvType.CLIENT)
+    public static void registerClient() {
         ClientPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedSyncPayload.ID, (payload, context) -> {
             double syncedSpeed = payload.speed();
             context.client().execute(() -> {

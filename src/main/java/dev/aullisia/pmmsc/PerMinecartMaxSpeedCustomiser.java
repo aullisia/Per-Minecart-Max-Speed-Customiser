@@ -15,7 +15,7 @@ public class PerMinecartMaxSpeedCustomiser implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModNetwork.registerModNetwork();
+        ModNetwork.registerServer();
         ModComponents.registerModComponents();
         ModItems.registerModItems();
         EventHooks.hookEvents();

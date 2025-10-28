@@ -135,7 +135,7 @@ publishMods {
 	def mod = project.mod_version
 	def mc = stonecutter.current.version
 	version = "${mod}+${mc}"
-	changelog = "\n- New recipe to reflect new texture \n- Switched to components for minecart reference"
+	changelog = "\n- Shiny new UI to configure Max Speed with \n- Removed old scroll wheel configuration \n- new server configuration can be found in config/pmmsc-PerMinecartMaxSpeedCustomiser-Common.toml"
 	type = STABLE
 
 	file = remapJar.archiveFile
@@ -148,6 +148,9 @@ publishMods {
 		requires {
 			id = "P7dR8mSH"
 		}
+        optional {
+            id = "LN9BxssP"
+        }
 	}
 
 //	println(">>> Publishing to tag: v${mod}")

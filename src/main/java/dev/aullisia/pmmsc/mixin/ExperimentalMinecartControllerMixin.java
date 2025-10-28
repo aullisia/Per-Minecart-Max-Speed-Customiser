@@ -21,7 +21,7 @@ public class ExperimentalMinecartControllerMixin {
         AbstractMinecartEntity minecart = ((MinecartControllerAccessor) this).getMinecart();
         double customMaxSpeed = ((CustomMaxSpeedAccessor) minecart).getCustomMaxSpeed();
 
-        if (customMaxSpeed > 0) {
+        if (customMaxSpeed >= 0) {
             return customMaxSpeed * (minecart.isTouchingWater() ? (double) 0.5F : (double) 1.0F) / (double) 20.0F;
         } else {
             return (double) world.getGameRules().getInt(GameRules.MINECART_MAX_SPEED) * (minecart.isTouchingWater() ? (double) 0.5F : (double) 1.0F) / (double) 20.0F;

@@ -4,6 +4,8 @@ import dev.aullisia.pmmsc.component.ModComponents;
 import dev.aullisia.pmmsc.network.packet.MinecartMaxSpeedSyncPayload;
 import dev.aullisia.pmmsc.screen.MinecartSpeedScreen;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,10 +23,14 @@ public class WrenchItem extends Item {
     }
 
     public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
-        if (player.getWorld().isClient) {
-            MinecraftClient.getInstance().setScreen(
-                    new MinecartSpeedScreen(Text.of(Objects.requireNonNull(cart.getDisplayName())), cart)
-            );
+        //? if >=1.21.9 {
+        /*var world = player.getEntityWorld();
+         *///?}
+        //? if <1.21.9 {
+        var world = player.getWorld();
+        //?}
+        if (world.isClient()) {
+            openMinecartSpeedScreen(cart);
         } else {
             player.getStackInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUuid());
             player.setCurrentHand(hand);
@@ -34,5 +40,12 @@ public class WrenchItem extends Item {
                         new MinecartMaxSpeedSyncPayload(((CustomMaxSpeedAccessor) cart).getCustomMaxSpeed()));
             }
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    private static void openMinecartSpeedScreen(AbstractMinecartEntity cart) {
+        MinecraftClient.getInstance().setScreen(
+                new MinecartSpeedScreen(Text.of(Objects.requireNonNull(cart.getDisplayName())), cart)
+        );
     }
 }
