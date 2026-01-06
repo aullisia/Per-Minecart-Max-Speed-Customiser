@@ -14,8 +14,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 //? if <1.21.5 {
-import net.minecraft.client.gl.ShaderProgramKeys;
-//?}
+/*import net.minecraft.client.gl.ShaderProgramKeys;
+*///?}
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
@@ -40,23 +40,23 @@ public class ModNetwork {
             double speed = payload.speed();
 
             //? if >=1.21.9 {
-            /*Objects.requireNonNull(context.server()).execute(() -> {
-             *///?}
+            Objects.requireNonNull(context.server()).execute(() -> {
+             //?}
             //? if <1.21.9 {
-            Objects.requireNonNull(context.player().getServer()).execute(() -> {
-                //?}
+            /*Objects.requireNonNull(context.player().getServer()).execute(() -> {
+                *///?}
                 var stack = player.getStackInHand(player.getActiveHand());
                 var cartUuid = stack.get(ModComponents.TARGET_MINECART);
                 //? if <1.21.5 {
-                Entity cartEntity = player.getServerWorld().getEntity(cartUuid);
-                //?}
+                /*Entity cartEntity = player.getServerWorld().getEntity(cartUuid);
+                *///?}
                 //? if >=1.21.5 && <1.21.9 {
                 /*Entity cartEntity = player.getWorld().getEntity(cartUuid);
                  *///?}
 
                 //? if >=1.21.9 {
-                /*Entity cartEntity = player.getEntityWorld().getEntity(cartUuid);
-                 *///?}
+                Entity cartEntity = player.getEntityWorld().getEntity(cartUuid);
+                 //?}
 
                 if ((cartEntity instanceof AbstractMinecartEntity cart)) {
                     double clampedSpeed = Math.min(Math.max(-1, speed), PerMinecartMaxSpeedCustomiserConfig.minecartMaxSpeed.get());

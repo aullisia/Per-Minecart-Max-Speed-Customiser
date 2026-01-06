@@ -4,7 +4,13 @@ import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.ExperimentalMinecartController;
 import net.minecraft.server.world.ServerWorld;
+//? if >=1.21.11 {
+/*import net.minecraft.world.rule.GameRules;
+*///?}
+//? if <1.21.11 {
 import net.minecraft.world.GameRules;
+ //?}
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -24,7 +30,12 @@ public class ExperimentalMinecartControllerMixin {
         if (customMaxSpeed >= 0) {
             return customMaxSpeed * (minecart.isTouchingWater() ? (double) 0.5F : (double) 1.0F) / (double) 20.0F;
         } else {
+            //? if >=1.21.11 {
+            /*return (double) world.getGameRules().getValue(GameRules.MAX_MINECART_SPEED) * (minecart.isTouchingWater() ? (double) 0.5F : (double) 1.0F) / (double) 20.0F;
+            *///?}
+            //? if <1.21.11 {
             return (double) world.getGameRules().getInt(GameRules.MINECART_MAX_SPEED) * (minecart.isTouchingWater() ? (double) 0.5F : (double) 1.0F) / (double) 20.0F;
+             //?}
         }
     }
 }

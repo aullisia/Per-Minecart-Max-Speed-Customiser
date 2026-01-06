@@ -3,12 +3,12 @@ package dev.aullisia.pmmsc.mixin;
 import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 //? if >=1.21.6 {
-/*import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-*///?}
+//?}
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,7 +24,7 @@ public class AbstractMinecartEntityMixin implements CustomMaxSpeedAccessor {
     private double customMaxSpeed = -1.0D;
 
     //? if <=1.21.4 {
-    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
+    /*@Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
     private void writeCustomMaxSpeed(NbtCompound nbt, CallbackInfo ci) {
         nbt.putDouble("CustomMaxSpeed", this.customMaxSpeed);
     }
@@ -35,7 +35,7 @@ public class AbstractMinecartEntityMixin implements CustomMaxSpeedAccessor {
             this.customMaxSpeed = nbt.getDouble("CustomMaxSpeed");
         }
     }
-    //?} elif =1.21.5 {
+    *///?} elif =1.21.5 {
     /*@Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
     private void writeCustomMaxSpeed(NbtCompound nbt, CallbackInfo ci) {
         nbt.putDouble("CustomMaxSpeed", this.customMaxSpeed);
@@ -49,7 +49,7 @@ public class AbstractMinecartEntityMixin implements CustomMaxSpeedAccessor {
         }
     }
     *///?} else {
-    /*@Inject(method = "writeCustomData", at = @At("TAIL"))
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
     private void writeCustomMaxSpeed(WriteView view, CallbackInfo ci) {
         view.putDouble("CustomMaxSpeed", this.customMaxSpeed);
     }
@@ -58,7 +58,7 @@ public class AbstractMinecartEntityMixin implements CustomMaxSpeedAccessor {
     private void readCustomMaxSpeed(ReadView view, CallbackInfo ci) {
         this.customMaxSpeed = view.getDouble("CustomMaxSpeed", -1.0);
     }
-    *///?}
+    //?}
 
     public double getCustomMaxSpeed() {
         return this.customMaxSpeed;

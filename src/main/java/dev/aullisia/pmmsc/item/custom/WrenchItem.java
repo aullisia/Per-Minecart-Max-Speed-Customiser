@@ -24,11 +24,11 @@ public class WrenchItem extends Item {
 
     public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
         //? if >=1.21.9 {
-        /*var world = player.getEntityWorld();
-         *///?}
+        var world = player.getEntityWorld();
+         //?}
         //? if <1.21.9 {
-        var world = player.getWorld();
-        //?}
+        /*var world = player.getWorld();
+        *///?}
         if (world.isClient()) {
             openMinecartSpeedScreen(cart);
         } else {
