@@ -21,13 +21,23 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+//? if <26.1 {
 import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S;
 import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C;
+//?} else {
+/*import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.clientboundPlay;
+import static net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.serverboundPlay;
+ *///?}
 
 public class ModNetwork {
     public static void registerServer() {
+        //? if <26.1 {
         playS2C().register(MinecartMaxSpeedSyncPayload.ID, MinecartMaxSpeedSyncPayload.CODEC);
         playC2S().register(MinecartMaxSpeedPayload.ID, MinecartMaxSpeedPayload.CODEC);
+        //?} else {
+        /*clientboundPlay().register(MinecartMaxSpeedSyncPayload.ID, MinecartMaxSpeedSyncPayload.CODEC);
+        serverboundPlay().register(MinecartMaxSpeedPayload.ID, MinecartMaxSpeedPayload.CODEC);
+        *///?}
 
         ServerPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedPayload.ID, (payload, context) -> {
             ServerPlayer player = context.player();
@@ -62,9 +72,15 @@ public class ModNetwork {
         ClientPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedSyncPayload.ID, (payload, context) -> {
             double syncedSpeed = payload.speed();
             context.client().execute(() -> {
+                //? if <26.2 {
                 if (Minecraft.getInstance().screen instanceof MinecartSpeedScreen screen) {
                     screen.updateSpeedField(syncedSpeed);
                 }
+                //?} else {
+                /*if (Minecraft.getInstance().gui.screen() instanceof MinecartSpeedScreen screen) {
+                    screen.updateSpeedField(syncedSpeed);
+                }
+                *///?}
             });
         });
     }

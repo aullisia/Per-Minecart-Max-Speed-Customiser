@@ -6,6 +6,7 @@ mod.version = "1.0.4"
 
 deps.fabric_loader = "0.19.3"
 loomx.loom_version = "1.17-SNAPSHOT"
+deps.config_m = "5546988" # config lib 1.21.2-1.21.10
 
 ["1.21.2"]
 mod.mc_compat = "1.21.2"
@@ -56,7 +57,19 @@ deps.fabric_api = "0.136.0+1.21.10"
 mod.mc_compat = "1.21.11"
 mod.mc_releases = ["1.21.11"]
 deps.fabric_api = "0.141.1+1.21.11"
+deps.config_m = "7376955"
 
+["26.1.x"]
+mod.mc_compat = "~26.1"
+mod.mc_releases = ["26.1"]
+deps.fabric_api = "0.155.2+26.1.2"
+deps.config_m = "8307508"
+
+["26.2.x"]
+mod.mc_compat = "~26.2"
+mod.mc_releases = ["26.2"]
+deps.fabric_api = "0.156.0+26.2"
+deps.config_m = "8307512"
 
 #["1.21.1"]
 ## Mod compatibility range in fabric.mod.json
@@ -65,13 +78,3 @@ deps.fabric_api = "0.141.1+1.21.11"
 #mod.mc_releases = ["1.21", "1.21.1"]
 #
 #deps.fabric_api = "0.116.15+1.21.1"
-#
-#["1.21.11"]
-#mod.mc_compat = "1.21.11"
-#mod.mc_releases = ["1.21.11"]
-#
-#["26.2.x"]
-#mod.mc_compat = "~26.2"
-#mod.mc_releases = ["26.2"]
-#
-#deps.fabric_api = "0.156.0+26.2"

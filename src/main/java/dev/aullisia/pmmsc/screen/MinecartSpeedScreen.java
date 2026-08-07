@@ -5,7 +5,11 @@ import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiser;
 import dev.aullisia.pmmsc.PerMinecartMaxSpeedCustomiserConfig;
 import dev.aullisia.pmmsc.network.packet.MinecartMaxSpeedPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+//? if <26.1 {
 import net.minecraft.client.gui.GuiGraphics;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
+ *///?}
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -107,6 +111,7 @@ public class MinecartSpeedScreen extends Screen {
     }
 
 
+    //? if <26.1 {
     @Override
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         renderBase(context);
@@ -140,6 +145,31 @@ public class MinecartSpeedScreen extends Screen {
         this.renderBlurredBackground();
         //?}
     }
+    //?} else {
+    /*@Override
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        renderBase(context);
+        drawBackground(context, delta, mouseX, mouseY);
+        drawForeground(context, mouseX, mouseY);
+        super.extractRenderState(context, mouseX, mouseY, delta);
+        speedInput.extractRenderState(context, mouseX, mouseY, delta);
+    }
+
+    private void drawBackground(GuiGraphicsExtractor context, float delta, int mouseX, int mouseY) {
+        int x = (width - backgroundWidth) / 2;
+        int y = (height - backgroundHeight) / 2 + 40;
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
+    }
+
+    private void drawForeground(GuiGraphicsExtractor context, int mouseX, int mouseY) {
+        context.text(font, title, x + titleX, y + titleY + 40, -12566464, false);
+        context.text(font, Component.nullToEmpty("Max Speed"), x + 95, y + titleY + 55, -12566464, false);
+    }
+
+    private void renderBase(GuiGraphicsExtractor context) {
+        context.fill(0, 0, this.width, this.height, 0x80000000);
+    }
+    *///?}
 
     @Override
     public boolean isPauseScreen() {

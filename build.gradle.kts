@@ -65,7 +65,7 @@ dependencies {
 //    modImplementation("com.github.Fallen-Breath:conditional-mixin-fabric:0.6.4")
 //    include("com.github.Fallen-Breath:conditional-mixin-fabric:0.6.4")
 
-    modImplementation("curse.maven:supermartijn642s-config-lib-438332:5546988")
+    modImplementation("curse.maven:supermartijn642s-config-lib-438332:${property("deps.config_m")}")
 }
 
 loom {

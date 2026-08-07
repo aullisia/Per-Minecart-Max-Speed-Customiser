@@ -1,7 +1,11 @@
 package dev.aullisia.pmmsc.datagen;
 
 import dev.aullisia.pmmsc.item.ModItems;
+//? if <26.1 {
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+//?} else {
+/*import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+ *///?}
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -15,9 +19,15 @@ import net.minecraft.world.item.Items;
 import java.util.concurrent.CompletableFuture;
 
 public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipeProvider {
+    //? if <26.1 {
     public PerMinecartMaxSpeedCustomiserRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
+    //?} else {
+    /*public PerMinecartMaxSpeedCustomiserRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
+    }
+    *///?}
 
     //? if >=1.21.4 {
     @Override

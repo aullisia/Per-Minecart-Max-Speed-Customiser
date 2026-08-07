@@ -38,8 +38,14 @@ public class WrenchItem extends Item {
 
     @Environment(EnvType.CLIENT)
     private static void openMinecartSpeedScreen(AbstractMinecart cart) {
+//? if <26.2 {
         Minecraft.getInstance().setScreen(
                 new MinecartSpeedScreen(Component.translationArg(Objects.requireNonNull(cart.getDisplayName())), cart)
         );
+        //?} else {
+        /*Minecraft.getInstance().gui.setScreen(
+                new MinecartSpeedScreen(Component.translationArg(Objects.requireNonNull(cart.getDisplayName())), cart)
+        );
+        *///?}
     }
 }

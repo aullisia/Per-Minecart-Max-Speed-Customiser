@@ -27,6 +27,10 @@ stonecutter parameters {
                 "net.minecraft.world.entity.vehicle.minecart.NewMinecartBehavior"
             )
             replace("net.minecraft.world.level.GameRules", "net.minecraft.world.level.gamerules.GameRules")
+
+            string(current.parsed >= "26.1") {
+                replace("classTweaker v2 named", "classTweaker v2 official")
+            }
         }
     }
 }
