@@ -3,20 +3,20 @@ package dev.aullisia.pmmsc.events;
 import dev.aullisia.pmmsc.item.ModItems;
 import dev.aullisia.pmmsc.item.custom.WrenchItem;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 
 public class EventHooks {
     public static void hookEvents() {
         // Wrench right click on entity
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (hand == Hand.MAIN_HAND && player.isSneaking() && entity instanceof AbstractMinecartEntity minecart && player.getStackInHand(hand).getItem() == ModItems.WRENCH) {
+            if (hand == InteractionHand.MAIN_HAND && player.isShiftKeyDown() && entity instanceof AbstractMinecart minecart && player.getItemInHand(hand).getItem() == ModItems.WRENCH) {
                 WrenchItem.useWrench(player, minecart, hand);
-                return ActionResult.SUCCESS; // Block default chest/furnace behavior
+                return InteractionResult.SUCCESS; // Block default chest/furnace behavior
             }
 
-            return ActionResult.PASS; // Allow normal behavior
+            return InteractionResult.PASS; // Allow normal behavior
         });
     }
 }

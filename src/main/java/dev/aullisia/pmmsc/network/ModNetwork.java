@@ -12,16 +12,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-//? if <1.21.5 {
-/*import net.minecraft.client.gl.ShaderProgramKeys;
-*///?}
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,29 +30,25 @@ public class ModNetwork {
         playC2S().register(MinecartMaxSpeedPayload.ID, MinecartMaxSpeedPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedPayload.ID, (payload, context) -> {
-            ServerPlayerEntity player = context.player();
+            ServerPlayer player = context.player();
             double speed = payload.speed();
 
             //? if >=1.21.9 {
-            Objects.requireNonNull(context.server()).execute(() -> {
-             //?}
+            /*Objects.requireNonNull(context.server()).execute(() -> {
+             *///?}
             //? if <1.21.9 {
-            /*Objects.requireNonNull(context.player().getServer()).execute(() -> {
-                *///?}
-                var stack = player.getStackInHand(player.getActiveHand());
+            Objects.requireNonNull(context.player().getServer()).execute(() -> {
+                //?}
+                var stack = player.getItemInHand(player.getUsedItemHand());
                 var cartUuid = stack.get(ModComponents.TARGET_MINECART);
                 //? if <1.21.5 {
-                /*Entity cartEntity = player.getServerWorld().getEntity(cartUuid);
-                *///?}
-                //? if >=1.21.5 && <1.21.9 {
-                /*Entity cartEntity = player.getWorld().getEntity(cartUuid);
+                Entity cartEntity = player.serverLevel().getEntity(cartUuid);
+                //?}
+                //? if >=1.21.5 {
+                /*Entity cartEntity = player.level().getEntity(cartUuid);
                  *///?}
 
-                //? if >=1.21.9 {
-                Entity cartEntity = player.getEntityWorld().getEntity(cartUuid);
-                 //?}
-
-                if ((cartEntity instanceof AbstractMinecartEntity cart)) {
+                if ((cartEntity instanceof AbstractMinecart cart)) {
                     double clampedSpeed = Math.min(Math.max(-1, speed), PerMinecartMaxSpeedCustomiserConfig.minecartMaxSpeed.get());
                     ((CustomMaxSpeedAccessor) cart).setCustomMaxSpeed(clampedSpeed);
                     ServerPlayNetworking.send(player, new MinecartMaxSpeedSyncPayload(speed));
@@ -72,7 +62,7 @@ public class ModNetwork {
         ClientPlayNetworking.registerGlobalReceiver(MinecartMaxSpeedSyncPayload.ID, (payload, context) -> {
             double syncedSpeed = payload.speed();
             context.client().execute(() -> {
-                if (MinecraftClient.getInstance().currentScreen instanceof MinecartSpeedScreen screen) {
+                if (Minecraft.getInstance().screen instanceof MinecartSpeedScreen screen) {
                     screen.updateSpeedField(syncedSpeed);
                 }
             });

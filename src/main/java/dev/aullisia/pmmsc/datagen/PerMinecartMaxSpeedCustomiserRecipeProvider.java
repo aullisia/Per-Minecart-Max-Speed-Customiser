@@ -3,46 +3,39 @@ package dev.aullisia.pmmsc.datagen;
 import dev.aullisia.pmmsc.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-//? if >=1.21.4 {
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-//?}
-//? if <=1.21.3 {
-/*import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.RecipeGenerator;
-*///?}
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import java.util.concurrent.CompletableFuture;
 
 public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipeProvider {
-    public PerMinecartMaxSpeedCustomiserRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public PerMinecartMaxSpeedCustomiserRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     //? if >=1.21.4 {
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registryLookup, RecipeExporter exporter) {
-        return new RecipeGenerator(registryLookup, exporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+        return new RecipeProvider(registryLookup, exporter) {
             @Override
-            public void generate() {
-                RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+            public void buildRecipes() {
+                HolderLookup.RegistryLookup<Item> itemLookup = registries.lookupOrThrow(Registries.ITEM);
 
-                createShaped(RecipeCategory.TOOLS, ModItems.WRENCH, 1)
+                shaped(RecipeCategory.TOOLS, ModItems.WRENCH, 1)
                         .pattern("g ")
                         .pattern("/L")
-                        .input('g', Items.GOLD_INGOT)
-                        .input('L', Items.LEATHER)
-                        .input('/', Items.STICK)
+                        .define('g', Items.GOLD_INGOT)
+                        .define('L', Items.LEATHER)
+                        .define('/', Items.STICK)
                         .group("wrench")
-                        .criterion("has_gold_ingot", conditionsFromItem(Items.GOLD_INGOT))
-                        .offerTo(exporter);
+                        .unlockedBy("has_gold_ingot", has(Items.GOLD_INGOT))
+                        .save(output);
             }
         };
     }
@@ -50,19 +43,19 @@ public class PerMinecartMaxSpeedCustomiserRecipeProvider extends FabricRecipePro
 
     //? if <=1.21.3 {
     /*@Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup wrapperLookup, RecipeExporter recipeExporter) {
-        return new RecipeGenerator(wrapperLookup, recipeExporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+        return new RecipeProvider(registryLookup, exporter) {
             @Override
-            public void generate() {
-                this.createShaped(RecipeCategory.TOOLS, ModItems.WRENCH, 1)
+            public void buildRecipes() {
+                shaped(RecipeCategory.TOOLS, ModItems.WRENCH, 1)
                         .pattern("g ")
                         .pattern("/L")
-                        .input('g', Items.GOLD_INGOT)
-                        .input('L', Items.LEATHER)
-                        .input('/', Items.STICK)
+                        .define('g', Items.GOLD_INGOT)
+                        .define('L', Items.LEATHER)
+                        .define('/', Items.STICK)
                         .group("wrench")
-                        .criterion("has_gold_ingot", this.conditionsFromItem(Items.GOLD_INGOT))
-                        .offerTo(this.exporter);
+                        .unlockedBy("has_gold_ingot", has(Items.GOLD_INGOT))
+                        .save(exporter, ResourceKey.create(Registries.RECIPE, ResourceLocation.fromNamespaceAndPath("pmmsc", "wrench")));
             }
         };
     }

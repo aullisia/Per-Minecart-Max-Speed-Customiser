@@ -27,3 +27,9 @@ Publish mods
 ```bash
 ./gradlew publishMods
 ```
+
+Publish specific mod
+**MAKE SURE TO UPDATE DESCRIPTION IN build.gradle**
+```bash
+./gradlew :1.21.4:publishMods
+```

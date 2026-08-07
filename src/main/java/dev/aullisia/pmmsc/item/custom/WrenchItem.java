@@ -7,35 +7,29 @@ import dev.aullisia.pmmsc.util.CustomMaxSpeedAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.item.Item;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.item.Item;
 import java.util.Objects;
 
 public class WrenchItem extends Item {
-    public WrenchItem(Settings settings) {
+    public WrenchItem(Properties settings) {
         super(settings);
     }
 
-    public static void useWrench(PlayerEntity player, AbstractMinecartEntity cart, Hand hand) {
-        //? if >=1.21.9 {
-        var world = player.getEntityWorld();
-         //?}
-        //? if <1.21.9 {
-        /*var world = player.getWorld();
-        *///?}
-        if (world.isClient()) {
+    public static void useWrench(Player player, AbstractMinecart cart, InteractionHand hand) {
+        var world = player.level();
+        if (world.isClientSide()) {
             openMinecartSpeedScreen(cart);
         } else {
-            player.getStackInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUuid());
-            player.setCurrentHand(hand);
+            player.getItemInHand(hand).set(ModComponents.TARGET_MINECART, cart.getUUID());
+            player.startUsingItem(hand);
 
-            if (player instanceof ServerPlayerEntity serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer) {
                 ServerPlayNetworking.send(serverPlayer,
                         new MinecartMaxSpeedSyncPayload(((CustomMaxSpeedAccessor) cart).getCustomMaxSpeed()));
             }
@@ -43,9 +37,9 @@ public class WrenchItem extends Item {
     }
 
     @Environment(EnvType.CLIENT)
-    private static void openMinecartSpeedScreen(AbstractMinecartEntity cart) {
-        MinecraftClient.getInstance().setScreen(
-                new MinecartSpeedScreen(Text.of(Objects.requireNonNull(cart.getDisplayName())), cart)
+    private static void openMinecartSpeedScreen(AbstractMinecart cart) {
+        Minecraft.getInstance().setScreen(
+                new MinecartSpeedScreen(Component.translationArg(Objects.requireNonNull(cart.getDisplayName())), cart)
         );
     }
 }
